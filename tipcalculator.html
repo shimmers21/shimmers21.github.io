@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bartender and Barback Tips Calculator</title>
+    <script>
+        function main() {
+            const bartendersCount = parseInt(prompt("How many bartenders worked? "));
+            const barbacksCount = parseInt(prompt("How many barbacks worked? "));
+
+            const bartenderHours = [];
+            const bartenderTips = [];
+            const bartenderCreditCardTips = [];
+
+            for (let i = 0; i < bartendersCount; i++) {
+                const hours = parseFloat(prompt(`Enter hours worked by bartender ${i + 1}: `));
+                const creditCardTips = parseFloat(prompt(`Enter CREDIT CARD tips for bartender ${i + 1}: `));
+                const totalTips = parseFloat(prompt(`Enter TOTAL TIPS (credit and cash together) for bartender ${i + 1}: `));
+                
+                bartenderHours.push(hours);
+                bartenderCreditCardTips.push(creditCardTips);
+                bartenderTips.push(totalTips);
+            }
+
+            const barbackHours = [];
+            for (let i = 0; i < barbacksCount; i++) {
+                const hours = parseFloat(prompt(`Enter hours worked by barback ${i + 1}: `));
+                barbackHours.push(hours);
+            }
+
+            const creditCardTipSum = bartenderCreditCardTips.reduce((a, b) => a + b, 0);
+            const barbackCreditCardTipSum = creditCardTipSum * 0.2;
+            const bartenderCreditCardTipSum = creditCardTipSum - barbackCreditCardTipSum;
+
+            const totalTipSum = bartenderTips.reduce((a, b) => a + b, 0);
+            const barbackTipSum = totalTipSum * 0.2;
+            const bartenderTipSum = totalTipSum - barbackTipSum;
+
+            document.write("-----------<br>");
+            document.write("***RESULTS***<br>");
+            document.write("-----------<br>");
+            document.write("Total Hours:<br>");
+            document.write(`Barback Hours Total: ${barbackHours.reduce((a, b) => a + b, 0)}<br>`);
+            document.write(`Bartender Hours Total: ${bartenderHours.reduce((a, b) => a + b, 0)}<br>`);
+            document.write("-----------<br>");
+            document.write("Barback Credit Breakdown:<br>");
+
+            const barbackCreditHourly = barbackCreditCardTipSum / barbackHours.reduce((a, b) => a + b, 0);
+            document.write(`Barback Credit Hourly $: ${barbackCreditHourly} (per hour)<br>`);
+            
+            for (let i = 0; i < barbacksCount; i++) {
+                const barbackCreditDeclared = barbackCreditHourly * barbackHours[i];
+                document.write(`Barback ${i + 1} Credit $: ${barbackCreditDeclared} (Hours: ${barbackHours[i]})<br>`);
+            }
+            
+            document.write("-----------<br>");
+            document.write("Bartender Credit Breakdown:<br>");
+            for (let i = 0; i < bartendersCount; i++) {
+                const bartenderCreditHourly = bartenderCreditCardTipSum / bartenderHours.reduce((a, b) => a + b, 0);
+                const bartenderCreditDeclared = bartenderCreditHourly * bartenderHours[i];
+                document.write(`Bartender Credit Hourly $: ${bartenderCreditHourly}<br>`);
+                document.write(`Bartender ${i + 1} $: ${bartenderCreditDeclared} (Hours: ${bartenderHours[i]})<br>`);
+            }
+
+            document.write("-----------<br>");
+            document.write("Barback Total Tip Breakdown:<br>");
+            const barbackTipHourly = barbackTipSum / barbackHours.reduce((a, b) => a + b, 0);
+            document.write(`Barback Total Tip Hourly $: ${barbackTipHourly} (per hour)<br>`);
+            
+            for (let i = 0; i < barbacksCount; i++) {
+                const barbackTipDeclared = barbackTipHourly * barbackHours[i];
+                document.write(`Barback ${i + 1} $: ${barbackTipDeclared} (Hours: ${barbackHours[i]})<br>`);
+            }
+
+            document.write("-----------<br>");
+            document.write("Bartender Total Tip Breakdown:<br>");
+            for (let i = 0; i < bartendersCount; i++) {
+                const bartenderTipHourly = bartenderTipSum / bartenderHours.reduce((a, b) => a + b, 0);
+                const bartenderTipDeclared = bartenderTipHourly * bartenderHours[i];
+                document.write(`Bartender Total Tip Hourly $: ${bartenderTipHourly}<br>`);
+                document.write(`Bartender ${i + 1} $: ${bartenderTipDeclared} (Hours: ${bartenderHours[i]})<br>`);
+            }
+        }
+    </script>
+</head>
+<body onload="main()">
+</body>
+</html>
